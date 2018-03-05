@@ -24,28 +24,73 @@
 //
 // ==========================================================================
 #include "sphere.h"
+#include <iostream>
 #define GLM_ENABLE_EXPERIMENTAL
+
+//Loop subdivision constructor
+Sphere::Sphere(int x) : RenderShape(){
+	if (x == 0) { //No subdivision
+		// 42 vertices
+		const std::vector<GLfloat> vertexCopy = vertices;
+
+		d_vertex.insert(d_vertex.end(), vertexCopy.begin(), vertexCopy.end());
+		d_index.insert(d_index.end(), {
+			1, 0, 4,
+			0, 1, 6,
+			2, 3, 5,
+			3, 2, 7,
+			4, 5, 10,
+			5, 4, 8,
+			6, 7, 9,
+			7, 6, 11,
+			8, 9, 2,
+			9, 8, 0,
+			10, 11, 1,
+			11, 10, 3,
+			0, 8, 4,
+			0, 6, 9,
+			1, 4, 10,
+			1, 11, 6,
+			2, 5, 8,
+			2, 9, 7,
+			3, 10, 5,
+			3, 7, 11
+		});
+	}
+	else if (x > 0) { //Perform loop subdivision
+		
+	}
+}
+
+
+
+std::vector<GLfloat> Sphere::subDivide(int numDivs) {
+	std::vector<GLfloat> loopVertices;
+	std::vector<int> loopIndices;
+
+	if (numDivs == 0) {
+		loopVertices = vertices;
+	}
+	else { // >= 1 subdivision
+		for (int i = 0; i < vertices.size; i += 3) {
+
+		}
+	}
+
+	return loopVertices;
+	
+}
 
 Sphere::Sphere() : RenderShape() {
   // 42 vertices
-	
-  d_vertex.insert(d_vertex.end(),{
-      0, 0.8506508f, 0.5257311f, 
-	0, 0.8506508f, -0.5257311f, 
-	0, -0.8506508f, 0.5257311f, 
-	0, -0.8506508f, -0.5257311f, 
-	0.8506508f, 0.5257311f, 0, 
-	0.8506508f, -0.5257311f, 0, 
-	-0.8506508f, 0.5257311f, 0, 
-	-0.8506508f, -0.5257311f, 0, 
-	0.5257311f, 0, 0.8506508f, 
-	-0.5257311f, 0, 0.8506508f, 
-	0.5257311f, 0, -0.8506508f, 
-	-0.5257311f, 0, -0.8506508f
-	});
+	const std::vector<GLfloat> a = subDivide(1);
+	const std::vector<GLfloat> vertexCopy = vertices;
+
+	d_vertex.insert(d_vertex.end(), vertexCopy.begin(), vertexCopy.end());
+	std::vector<int>lol = getVertexfromIndex(2);
   // 80 faces
   d_index.insert(d_index.end(), {
-      1, 0, 4, 
+    1, 0, 4, 
 	0, 1, 6, 
 	2, 3, 5, 
 	3, 2, 7, 
@@ -66,7 +111,10 @@ Sphere::Sphere() : RenderShape() {
 	3, 10, 5, 
 	3, 7, 11
     });
+  std::cout << "VERTICES ARE" << d_vertex[4];
   // direct specification with all faces unrolled
   // - not supplied
 }
+
+
 
