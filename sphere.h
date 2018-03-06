@@ -36,6 +36,7 @@
 
 class Sphere : public RenderShape {
  public:
+	 //Original Vertices
 	 std::vector<GLfloat> vertices = { 
 		 0, 0.8506508f, 0.5257311f,
 		 0, 0.8506508f, -0.5257311f,
@@ -51,7 +52,8 @@ class Sphere : public RenderShape {
 		 -0.5257311f, 0, -0.8506508f
 	 };
 
-	 std::vector<int>indices = {
+	 //Original Indices
+	 std::vector<GLushort>indices = {
 		 1, 0, 4,
 		 0, 1, 6,
 		 2, 3, 5,
@@ -76,7 +78,8 @@ class Sphere : public RenderShape {
   Sphere();
   Sphere(int x);
   std::vector<GLfloat> subDivide(int numDiv);
-  //std::vector<int>getVertexfromIndex(int index);
+
+  //Returns a vector containing the array position of 3 vertices that correspond to one triangular face
   std::vector<int>getVertexfromIndex(int index) {
 	  std::vector<int> vec;
 
