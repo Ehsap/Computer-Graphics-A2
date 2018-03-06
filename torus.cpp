@@ -1,31 +1,37 @@
-// ==========================================================================
-// $Id: torus.cpp,v 1.2 2018/02/17 03:21:13 jlang Exp $
-// Simple structure for torus data
-// ==========================================================================
-// (C)opyright:
-//
-//   Jochen Lang
-//   SITE, University of Ottawa
-//   800 King Edward Ave.
-//   Ottawa, On., K1N 6N5
-//   Canada.
-//   http://www.site.uottawa.ca
-//
-// Creator: jlang (Jochen Lang)
-// Email:   jlang@site.uottawa.ca
-// ==========================================================================
-// $Log: torus.cpp,v $
-// Revision 1.2  2018/02/17 03:21:13  jlang
-// Simplified shape hierarchy for simplifying modifications
-//
-// Revision 1.1  2018/01/28 05:45:57  jlang
-// Switch to core
-//
-//
-// ==========================================================================
+//Justin Huynh 
+//7745112
+//Assignment 2
+//CSI4130
+
 #include "torus.h"
+#include<math.h>
+#include<iostream>
 #define GLM_ENABLE_EXPERIMENTAL
 
+Torus::Torus(float ri, float ro, int ni, int no): RenderShape() {
+	//std::vector<GLfloat> x;
+	float alpha;
+	float beta;
+	float x;
+	float y;
+	float z;
+
+	for (int i = 0; i < ni; i++) {
+		alpha = i*(2*M_PI / ni);
+		beta = 360 - alpha;
+		x = ro + ri*cos(alpha)*cos(beta);
+		y = ro + ri*cos(alpha)*sin(beta);
+		z = ri*sin(alpha);
+		d_vertex.push_back(x);
+		d_vertex.push_back(y);
+		d_vertex.push_back(z);
+		d_index.push_back(i);
+		std::cout << "X:" << x << "\n";
+		std::cout << "Y" << y << "\n";
+		std::cout << "Z" << z;
+	}
+
+}
 Torus::Torus() : RenderShape() {
   d_vertex.insert(d_vertex.end(), std::initializer_list<GLfloat>{
 	0.789861f, -0.10218f, -0.911124f, 

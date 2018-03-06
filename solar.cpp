@@ -1,73 +1,7 @@
-// ==========================================================================
-// $Id: solar.cpp,v 1.8 2018/02/17 03:21:06 jlang Exp $
-// Solar example for hierachical modeling
-// 
-// Code inspired by the OpenGL programming guide by Shreiner et al.
-// ==========================================================================
-// (C)opyright:
-//
-//   Jochen Lang
-//   EECS, University of Ottawa
-//   800 King Edward Ave.
-//   Ottawa, On., K1N 6N5
-//   Canada.
-//   http://www.eecs.uottawa.ca
-//
-// Creator: Jochen Lang
-// Email:   jlang@uottawa.ca
-// ==========================================================================
-// $Log: solar.cpp,v $
-// Revision 1.8  2018/02/17 03:21:06  jlang
-// Simplified shape hierarchy for simplifying modifications
-//
-// Revision 1.6  2018/01/30 16:50:22  jlang
-// fixed indentation
-//
-// Revision 1.5  2018/01/29 19:57:07  jlang
-// Updated descriptions
-//
-// Revision 1.5  2018/01/28 05:45:57  jlang
-// Switch to core
-//
-// Revision 1.4  2017/10/26 20:04:01  jlang
-// Added algorithm library for min/max in windows.
-//
-// Revision 1.3  2014/09/19 17:19:34  jlang
-// Took care of compiler warnings switched to radians.
-//
-// Revision 1.2  2014/01/26 16:19:31  jlang
-// Verified program for OpenGL 3.3
-//
-// Revision 1.1  2014/01/25 21:58:13  jlang
-// Created lab2 without fixed pipeline
-//
-// Revision 1.5  2011/01/31 01:51:16  jlang
-// added skeleton
-//
-// Revision 1.4  2011/01/29 21:06:28  jlang
-// Solution to lab3
-//
-// Revision 1.3  2011/01/29 19:26:30  jlang
-// Solution for lab3
-//
-// Revision 1.2  2011/01/29 13:32:39  jlang
-// Check-in for laptop
-//
-// Revision 1.1  2011/01/29 01:49:44  jlang
-// Added lab 3
-//
-// Revision 1.3  2008/01/24 03:45:24  jlang
-// Fixed stepping, window setup and comments
-//
-// Revision 1.2  2007/01/22 20:19:03  jlang
-// Ayman's changes
-//
-// Revision 1.1  2006/01/23 21:40:31  jlang
-// Added tutorial on transormation matrices
-//
-//
-//
-// ==========================================================================
+//Justin Huynh
+//7745112
+//Assignment 2
+//CSI4130
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -131,7 +65,7 @@ struct Transformations {
 };
 
 /** Global variables */
-Sphere g_sphereShape(1); //Change the number passed to the constructor to alter the number of subdivisions
+Sphere g_sphereShape(0); //Change the number passed to the constructor to alter the number of subdivisions
 Torus g_torusShape;
 Teapot g_teapotShape;
 GLuint g_sphere_vao;
@@ -379,7 +313,8 @@ void display(void)
   glUniform3f(g_color_loc, 0.4f, 0.4f, 0.4f);  // saturn ring color
   glBindVertexArray(g_torus_vao);
   glDrawElements(GL_TRIANGLES, g_torusShape.getNIndices(),
-		 GL_UNSIGNED_SHORT, 0);
+  		 GL_UNSIGNED_SHORT, 0);
+  //glDrawElements(GL_QUADS, g_torusShape.getNIndices(), GL_UNSIGNED_SHORT, 0); //Justin
   errorOut();
 
   // back to saturn's ring (without scale)

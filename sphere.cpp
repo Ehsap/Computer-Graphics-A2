@@ -42,7 +42,8 @@ std::vector<GLfloat> Sphere::subDivide(int numDivs) {
 		return loopVertices;
 	}
 	else { // >= 1 subdivision. 
-		for (int i = 0; i <= indices.size()-3; i+=3) {
+		//for (int i = 0; i <= 3; i+=3){
+		for (int i = 0; i<= indices.size()-3; i+=3) {
 		   
 			//Represent the three vertices of a triangular face
 			std::vector<GLfloat> v1;
@@ -144,5 +145,5 @@ Sphere::Sphere(int numDivs) : RenderShape() {
   // 80 faces
 	//d_index.insert(d_index.end(), b.begin(), b.end());
 	d_index.insert(d_index.end(), loopIndices.begin(), loopIndices.end());
+	
 }
-

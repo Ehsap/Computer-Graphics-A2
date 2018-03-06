@@ -35,6 +35,8 @@
 
 class Torus : public RenderShape {
  public:
+  Torus(float ri, float ro, int ni, int no);
   Torus();
+  
 };
 #endif
