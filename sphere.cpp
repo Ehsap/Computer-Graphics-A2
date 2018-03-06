@@ -141,7 +141,8 @@ Sphere::Sphere() : RenderShape() {
 	std::vector<GLfloat> test = subDivide(1);
 
 	// 42 vertices
-	d_vertex.insert(d_vertex.end(), vertexCopy.begin(), vertexCopy.end());
+	d_vertex.insert(d_vertex.end(), test.begin(), test.end());
+	//d_vertex.insert(d_vertex.end(), vertexCopy.begin(), vertexCopy.end());
 
   // 80 faces
 	d_index.insert(d_index.end(), b.begin(), b.end());
