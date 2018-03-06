@@ -27,61 +27,29 @@
 #include <iostream>
 #define GLM_ENABLE_EXPERIMENTAL
 
-//Loop subdivision constructor
-Sphere::Sphere(int x) : RenderShape(){
-	if (x == 0) { //No subdivision
-		// 42 vertices
-		const std::vector<GLfloat> vertexCopy = vertices;
-
-		d_vertex.insert(d_vertex.end(), vertexCopy.begin(), vertexCopy.end());
-		d_index.insert(d_index.end(), {
-			1, 0, 4,
-			0, 1, 6,
-			2, 3, 5,
-			3, 2, 7,
-			4, 5, 10,
-			5, 4, 8,
-			6, 7, 9,
-			7, 6, 11,
-			8, 9, 2,
-			9, 8, 0,
-			10, 11, 1,
-			11, 10, 3,
-			0, 8, 4,
-			0, 6, 9,
-			1, 4, 10,
-			1, 11, 6,
-			2, 5, 8,
-			2, 9, 7,
-			3, 10, 5,
-			3, 7, 11
-		});
-	}
-	else if (x > 0) { //Perform loop subdivision
-		
-	}
-}
-
-
 
 std::vector<GLfloat> Sphere::subDivide(int numDivs) {
-	std::vector<GLfloat> loopVertices; //Vertices in the sub divided polyhedron
-	std::vector<int> loopIndices; //Indices in the sub divided polyhedron
+	std::vector<GLfloat> loopVertices = vertices; //Vertices in the sub divided polyhedron
+	
 	std::cout << "INDICES SIZE: " << indices.size()<<"!!!!";
 	//Represents the three midpoints found from a triangular face
 	std::vector<GLfloat> midPoints;
 	
+	loopVertices = vertices;
+	
 	if (numDivs == 0) {
-		loopVertices = vertices;
+		loopIndices = indices;
+		return loopVertices;
 	}
 	else { // >= 1 subdivision. 
-		for (int i = 0; i < indices.size()-3; i+=3) {
+		for (int i = 0; i <= indices.size()-3; i+=3) {
 		   
 			//Represent the three vertices of a triangular face
 			std::vector<GLfloat> v1;
 			std::vector<GLfloat> v2;
 			std::vector<GLfloat> v3;
 
+			//Hold the indices of vertices corresponding to v1,v2,v3
 			std::vector<int> temp;
 			std::vector<int> tempB;
 			std::vector<int> tempC;
@@ -104,7 +72,9 @@ std::vector<GLfloat> Sphere::subDivide(int numDivs) {
 			v3.push_back(vertices[tempC[1]]);
 			v3.push_back(vertices[tempC[2]]);
 
-			/*Calculate the midpoints between (v1,v2), (v1,v3), and (v2,v3)
+			/*Split each triangle into four by connecting edge midpoints
+
+			1.Calculate the midpoints between (v1,v2), (v1,v3), and (v2,v3)
 			          v1
 					/   \
 				   v2____v3 */
@@ -124,32 +94,55 @@ std::vector<GLfloat> Sphere::subDivide(int numDivs) {
 			loopVertices.push_back((v2[1] + v3[1]) / 2); //Y
 			loopVertices.push_back((v2[2] + v3[2]) / 2); //Z
 
-			//Find the new indices
+			/*Create new edges between original vertices and midpoints
+							   v1
+							   / \
+							  a___b   
+							 / \ / \
+							v2__c__v3
+
+							 */
+			//Create face between midpoints
+			loopIndices.push_back(indices.size() + i); //a	
+			loopIndices.push_back(indices.size() + i + 1); //b
+			loopIndices.push_back(indices.size() + i + 2); //c
+
+			//Create face between v1, a, and b
+			loopIndices.push_back(indices[i]); //v1
+			loopIndices.push_back(indices.size() + i); //a
+			loopIndices.push_back(indices.size() + i + 1); //b
+
+			//Create face between v2, a, and c
+			loopIndices.push_back(indices[i + 1]); //v2
+			loopIndices.push_back(indices.size() + i); //a
+			loopIndices.push_back(indices.size() + i + 2); //c
+
+			//Create face between v3, b, and c
+			loopIndices.push_back(indices[i + 2]); //v3
+			loopIndices.push_back(indices.size() + i + 1); //b
+			loopIndices.push_back(indices.size() + i + 2); //c
+
+
 		}
 	}
-	
+
 	std::cout << "LOOP VERTICES SIZE: " << loopVertices.size() <<"!!!";
 	return loopVertices;
 	
 }
 
-Sphere::Sphere() : RenderShape() {
+/*Sphere constructor takes an integer 'numDivs' that determines how many times
+  to subdivide the sphere.*/ 
+Sphere::Sphere(int numDivs) : RenderShape() {
  
-	//const std::vector<GLfloat> a = subDivide(1);
-	const std::vector<GLushort> b = indices;
 	const std::vector<GLfloat> vertexCopy = vertices;
-	std::vector<GLfloat> test = subDivide(1);
-
+	std::vector<GLfloat> loopVertices = subDivide(numDivs);
 	// 42 vertices
-	d_vertex.insert(d_vertex.end(), test.begin(), test.end());
+	d_vertex.insert(d_vertex.end(), loopVertices.begin(), loopVertices.end());
 	//d_vertex.insert(d_vertex.end(), vertexCopy.begin(), vertexCopy.end());
 
   // 80 faces
-	d_index.insert(d_index.end(), b.begin(), b.end());
+	//d_index.insert(d_index.end(), b.begin(), b.end());
+	d_index.insert(d_index.end(), loopIndices.begin(), loopIndices.end());
 }
-
-
-
-
-
 

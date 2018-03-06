@@ -131,7 +131,7 @@ struct Transformations {
 };
 
 /** Global variables */
-Sphere g_sphereShape;
+Sphere g_sphereShape(1); //Change the number passed to the constructor to alter the number of subdivisions
 Torus g_torusShape;
 Teapot g_teapotShape;
 GLuint g_sphere_vao;

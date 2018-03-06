@@ -74,7 +74,7 @@ class Sphere : public RenderShape {
 		 2, 9, 7,
 		 3, 10, 5,
 		 3, 7, 11 };
-
+  std::vector<GLushort> loopIndices; //Indices in the sub divided polyhedron
   Sphere();
   Sphere(int x);
   std::vector<GLfloat> subDivide(int numDiv);
